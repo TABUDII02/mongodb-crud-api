@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs"); // For password hashing
 
 const app = express();
-const PORT = 27017;
+const PORT = 3000;
 
 // Middleware
 app.use(cors());
