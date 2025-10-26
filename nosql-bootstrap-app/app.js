@@ -39,6 +39,14 @@ const User = mongoose.model("User", UserSchema);
 
 // 4. Routes (Updated for Registration)
 
+// Route for the root path (/)
+app.get("/", (req, res) => {
+    res.json({
+        status: "API is Live!",
+        message: "Welcome to the MongoDB CRUD API.",
+        documentation: "Access routes like /api/register and /api/users."
+    });
+});
 // Route to register a new user (Securely with Hashing)
 app.post("/api/register", async (req, res) => {
     // Note: The front-end form should submit name, email, and password
@@ -94,5 +102,5 @@ app.get("/api/users", async (req, res) => {
 // 5. Start Server (Fixed Console Log)
 app.listen(PORT, () => 
     // FIXED: Changed single quotes to backticks (`) for template literal
-    console.log(`Server running on http://localhost:${PORT}`)
+     console.log(`Server running on port ${PORT}`)
 );
