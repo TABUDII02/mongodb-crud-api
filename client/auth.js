@@ -1,4 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // =========================================================
+    // A. UI TOGGLE LOGIC (CONNECTING HTML/CSS TO JS)
+    // =========================================================
+
+    const registerPanel = document.getElementById('register-panel');
+    const loginPanel = document.getElementById('login-panel');
+    const showLogin = document.getElementById('show-login');
+    const showRegister = document.getElementById('show-register');
+
+    /**
+     * Toggles the visibility of the register and login forms.
+     * @param {string} target 'login' or 'register'
+     */
+    function toggleForm(target) {
+        if (target === 'login') {
+            registerPanel.classList.remove('active-form');
+            loginPanel.classList.add('active-form');
+        } else if (target === 'register') {
+            loginPanel.classList.remove('active-form');
+            registerPanel.classList.add('active-form');
+        }
+    }
+
+    if (showLogin) {
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForm('login');
+        });
+    }
+
+    if (showRegister) {
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleForm('register');
+        });
+    }
+
+    // =========================================================
+    // B. API HANDLER LOGIC (YOUR ORIGINAL CODE)
+    // =========================================================
+    
     // --- Configuration ---
     // Make sure this matches your Node.js server port!
     const API_BASE_URL = 'http://localhost:3000/api'; 
@@ -40,20 +81,28 @@ document.addEventListener('DOMContentLoaded', () => {
         registrationForm.addEventListener('submit', async (e) => {
             e.preventDefault(); 
 
-            // 🛑 UPDATED: Get the value from the new 'reg-name' input field
             const name = e.target.elements['reg-name'].value; 
             const email = e.target.elements['reg-email'].value;
             const password = e.target.elements['reg-password'].value;
             
+            // Basic client-side validation check
+            if (!name || !email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
             const registrationData = { name, email, password };
             
             try {
                 // Calls POST /api/register
                 const user = await apiRequest('register', registrationData);
 
-                alert(`✅ Registration Successful! Welcome, ${user.name}. You can now log in.`);
+                // ⭐ Enhanced Success Feedback for E-commerce
+                alert(`✅ Registration Successful! Welcome, ${user.name}! Please sign in now.`);
                 
                 registrationForm.reset();
+                // Automatically switch to the login panel after successful registration
+                toggleForm('login'); 
 
             } catch (error) {
                 alert(`❌ Registration Failed: ${error.message}`);
@@ -77,15 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Calls POST /api/login
                 const response = await apiRequest('login', loginData);
 
+                // Save token and user data (crucial for maintaining login state)
+                if (response.token) {
+                    localStorage.setItem('authToken', response.token); 
+                }
+                if (response.user) {
+                    localStorage.setItem('userName', response.user.name); 
+                }
+                
                 alert(`🎉 Login Successful! Welcome back, ${response.user.name}!`);
                 
-                // --- Next Steps in a Real App ---
-                // 1. Save the Authentication Token (JWT) here if your backend returns one.
-                // localStorage.setItem('authToken', response.token); 
-                // 2. Save the user details.
-                // localStorage.setItem('userName', response.user.name); 
-                
-                // Redirect the user
+                // Redirect the user to the main products page
                 window.location.href = 'index.html'; 
 
             } catch (error) {
