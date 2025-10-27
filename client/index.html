@@ -3,24 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Store</title>
+    <title>MyStore | Your Tech & Lifestyle Destination</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Simple smooth scroll script for navigation links
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 
     <header>
-        <div class="logo">MyStore 🛍️</div>
+        <div class="logo">MyStore 🚀</div>
         <nav>
-            <a href="index.html">Products</a>
-            <a href="auth.html">Account / Login</a>
-            <a href="#">Cart (0)</a>
+            <a href="#products">Products</a>
+            <a href="#about-us">About Us</a>
+            <a href="#contact-us">Contact Us</a>
+            <a href="auth.html" class="nav-account">Account / Login</a>
+            <a href="#" class="nav-cart">Cart (0) 🛒</a>
         </nav>
     </header>
 
-    <main class="product-grid">
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Discover the Latest Tech, Designed for You.</h1>
+            <p>From cutting-edge gadgets to essential accessories—find everything you need in one place.</p>
+            <a href="#products" class="cta-button">Shop Now!</a>
+        </div>
+    </section>
+
+    <main id="products" class="product-grid">
+        <h2>🔥 Top Picks & New Arrivals</h2>
+        
         <div class="product-card">
-            <img src="https://via.placeholder.com/300x200?text=Product+Image+1" alt="Product 1 Image">
+            <img src="ONIKUMA-GT803-Over-Ear-Headset-Noise-Canceling-HiFi-Stereo-Sound-Quality-Stylish-Ear-Hook-Gaming-Wireless-Headphone-With-Mic.jpg" alt="Product 1 Image">
             <div class="product-info">
                 <h3>Stylish Headset</h3>
                 <p class="description">High-fidelity sound with noise-canceling technology. Perfect for work and music.</p>
@@ -28,9 +53,8 @@
                 <button>Add to Cart</button>
             </div>
         </div>
-
         <div class="product-card">
-            <img src="https://via.placeholder.com/300x200?text=Product+Image+2" alt="Product 2 Image">
+            <img src="71hcBp7MA6L.jpg" alt="Product 2 Image">
             <div class="product-info">
                 <h3>Ergonomic Mouse</h3>
                 <p class="description">Designed for comfort and precision. Reduces wrist strain for long work sessions.</p>
@@ -38,9 +62,8 @@
                 <button>Add to Cart</button>
             </div>
         </div>
-
         <div class="product-card">
-            <img src="https://via.placeholder.com/300x200?text=Product+Image+3" alt="Product 3 Image">
+            <img src="71NVBNrF1pL._AC_UF894,1000_QL80_.jpg" alt="Product 3 Image">
             <div class="product-info">
                 <h3>Portable Charger</h3>
                 <p class="description">20000mAh power bank. Fast charging for all your devices on the go.</p>
@@ -48,10 +71,193 @@
                 <button>Add to Cart</button>
             </div>
         </div>
+
+        <div class="product-card">
+            <img src="placeholder-4.jpg" alt="Product 4 Image">
+            <div class="product-info">
+                <h3>4K Webcam Pro</h3>
+                <p class="description">Crystal-clear video for professional streaming and video calls.</p>
+                <p class="price">$89.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-5.jpg" alt="Product 5 Image">
+            <div class="product-info">
+                <h3>Noise-Cancelling Buds</h3>
+                <p class="description">Ultra-compact earbuds with incredible battery life and sound.</p>
+                <p class="price">$129.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-6.jpg" alt="Product 6 Image">
+            <div class="product-info">
+                <h3>Mechanical Keyboard</h3>
+                <p class="description">Tactile brown switches for a satisfying typing experience.</p>
+                <p class="price">$99.95</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-7.jpg" alt="Product 7 Image">
+            <div class="product-info">
+                <h3>Smart Fitness Watch</h3>
+                <p class="description">Tracks steps, heart rate, and sleep. Stay motivated and healthy!</p>
+                <p class="price">$49.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-8.jpg" alt="Product 8 Image">
+            <div class="product-info">
+                <h3>Portable SSD 1TB</h3>
+                <p class="description">Lightning-fast storage for backups and large media files.</p>
+                <p class="price">$119.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-9.jpg" alt="Product 9 Image">
+            <div class="product-info">
+                <h3>Gaming Monitor 27"</h3>
+                <p class="description">144Hz refresh rate, curved display for an immersive gaming experience.</p>
+                <p class="price">$299.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-10.jpg" alt="Product 10 Image">
+            <div class="product-info">
+                <h3>Mini Projector</h3>
+                <p class="description">Pocket-sized projector for movies anywhere. Great for travel.</p>
+                <p class="price">$150.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-11.jpg" alt="Product 11 Image">
+            <div class="product-info">
+                <h3>Wireless Charging Pad</h3>
+                <p class="description">Charge your phone, watch, and earbuds simultaneously, clutter-free.</p>
+                <p class="price">$39.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-12.jpg" alt="Product 12 Image">
+            <div class="product-info">
+                <h3>Laptop Stand</h3>
+                <p class="description">Ergonomic aluminum stand to improve airflow and posture.</p>
+                <p class="price">$29.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-13.jpg" alt="Product 13 Image">
+            <div class="product-info">
+                <h3>Mesh Wi-Fi System</h3>
+                <p class="description">Eliminate dead zones with seamless, whole-home wireless coverage.</p>
+                <p class="price">$199.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-14.jpg" alt="Product 14 Image">
+            <div class="product-info">
+                <h3>Portable Bluetooth Speaker</h3>
+                <p class="description">Rugged and waterproof with 24 hours of playtime. Perfect for outdoors.</p>
+                <p class="price">$79.50</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-15.jpg" alt="Product 15 Image">
+            <div class="product-info">
+                <h3>LED Desk Lamp</h3>
+                <p class="description">Adjustable brightness and color temperature for any task.</p>
+                <p class="price">$45.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-16.jpg" alt="Product 16 Image">
+            <div class="product-info">
+                <h3>Stylus Pen Pro</h3>
+                <p class="description">High-precision tip for drawing and note-taking on tablets.</p>
+                <p class="price">$32.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-17.jpg" alt="Product 17 Image">
+            <div class="product-info">
+                <h3>Smart Plug Set (4-Pack)</h3>
+                <p class="description">Control your appliances from anywhere using a simple mobile app.</p>
+                <p class="price">$49.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-18.jpg" alt="Product 18 Image">
+            <div class="product-info">
+                <h3>VR Headset Starter Kit</h3>
+                <p class="description">Dive into immersive virtual reality experiences right from your home.</p>
+                <p class="price">$250.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-19.jpg" alt="Product 19 Image">
+            <div class="product-info">
+                <h3>Digital Drawing Tablet</h3>
+                <p class="description">Large active area and pressure sensitivity for digital artists.</p>
+                <p class="price">$149.99</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="placeholder-20.jpg" alt="Product 20 Image">
+            <div class="product-info">
+                <h3>GPS Drone (Foldable)</h3>
+                <p class="description">Easy-to-fly drone with 4K camera and automatic return-to-home feature.</p>
+                <p class="price">$399.00</p>
+                <button>Add to Cart</button>
+            </div>
+        </div>
     </main>
+
+    <section id="about-us" class="info-section">
+        <h2>💡 About MyStore</h2>
+        <div class="info-content">
+            <p><strong>Our Mission:</strong> We believe in connecting people with the best technology that enhances daily life. MyStore was founded in 2025 with a simple goal: to be your trusted source for high-quality, innovative gadgets and accessories.</p>
+            <p>Every product in our catalog is hand-picked and tested for **quality, reliability, and value**. We are passionate about tech and committed to providing an exceptional shopping experience. Thank you for choosing us!</p>
+        </div>
+    </section>
+    
+    <section id="contact-us" class="info-section">
+        <h2>📧 Contact Us</h2>
+        <div class="info-content">
+            <p>Have a question about an order, a product, or just want to say hello? We're here to help!</p>
+            <p>
+                **Email:** <a href="mailto:support@mystore.com">support@mystore.com</a><br>
+                **Phone:** (555) 123-4567<br>
+                **Address:** 123 Tech Lane, Innovation City, 90210
+            </p>
+            <form class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
 
     <footer>
         <p>&copy; 2025 MyStore. All rights reserved.</p>
+        <div class="footer-links">
+             <a href="#about-us">About</a> | <a href="#contact-us">Contact</a> | <a href="#">Terms</a>
+        </div>
     </footer>
 
 </body>
