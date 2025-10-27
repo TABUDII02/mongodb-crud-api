@@ -9,6 +9,20 @@ const bcrypt = require("bcryptjs"); // For password hashing
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ... (in your Node.js server file) ...
+
+const allowedOrigins = [
+    "https://frontend-j35x.onrender.com/", 
+    "http://localhost:5500",
+    "http://localhost:3000"
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true
+}));
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
