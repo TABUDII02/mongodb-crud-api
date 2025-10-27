@@ -3,57 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account - Register / Login</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Account - Sign In / Register</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="auth-body">
 
-    <header>
-        <div class="logo">MyStore 🛍️</div>
-        <nav>
+    <header class="main-header">
+        <div class="logo">MyStore <i class="fas fa-shopping-bag"></i></div>
+        <nav class="main-nav">
             <a href="index.html">Products</a>
-            <a href="auth.html">Account / Login</a>
-            <a href="#">Cart (0)</a>
+            <a href="auth.html" class="active-link">Account / Login</a>
+            <a href="#"><i class="fas fa-shopping-cart"></i> Cart (0)</a>
         </nav>
     </header>
 
-    <main class="auth-container">
-        <div class="form-card">
-            <h2>Register</h2>
-            <form id="registration-form">
-                <div class="form-group">
-                    <label for="reg-name">Full Name</label>
-                    <input type="text" id="reg-name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg-email">Email Address</label>
-                    <input type="email" id="reg-email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg-password">Password</label>
-                    <input type="password" id="reg-password" name="password" required>
-                </div>
-                <button type="submit">Register</button>
-            </form>
-        </div>
+    <main class="auth-wrapper">
+        <div class="auth-container">
+            
+            <div id="register-panel" class="auth-panel register-panel active-form">
+                <h2 class="form-title">Join MyStore Today!</h2>
+                <p class="subtitle">Create your account to unlock exclusive deals and faster checkout.</p>
+                <form id="registration-form">
+                    
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <input type="text" id="reg-name" name="name" required placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-email">Email Address</label>
+                        <input type="email" id="reg-email" name="email" required placeholder="john.doe@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" name="password" required placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="primary-btn register-btn">Create Account</button>
+                    
+                    <div class="form-footer">
+                        Already have an account? <a href="#" id="show-login" class="toggle-link">Sign In</a>
+                    </div>
+                </form>
+            </div>
 
-        <div class="form-card">
-            <h2>Login</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-email">Email Address</label>
-                    <input type="email" id="login-email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" name="password" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            <div id="login-panel" class="auth-panel login-panel">
+                <h2 class="form-title">Welcome Back!</h2>
+                <p class="subtitle">Log in to continue shopping and manage your orders.</p>
+                <form id="login-form">
+                    
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" name="email" required placeholder="john.doe@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" required placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="primary-btn login-btn">Sign In</button>
+                    
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+
+                    <div class="form-footer">
+                        New to MyStore? <a href="#" id="show-register" class="toggle-link">Register Now</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="auth-callout">
+                <h3><i class="fas fa-gift"></i> Exclusive Benefits</h3>
+                <ul>
+                    <li>**Fast & Secure Checkout**</li>
+                    <li>**Track Your Orders** Easily</li>
+                    <li>**Save Your Favorites** Wishlist</li>
+                </ul>
+            </div>
+
         </div>
     </main>
 
-    <script src="auth.js"></script> 
+    <script src="auth.js"></script>
 </body>
 </html>
