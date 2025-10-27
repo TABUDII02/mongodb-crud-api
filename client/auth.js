@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Configuration ---
     // Make sure this matches your Node.js server port!
-    const API_BASE_URL = 'http://localhost:3000/api'; 
+    const API_BASE_URL = 'https://mongodb-crud-api-ato3.onrender.com/api'; 
     
     // --- Get Form Elements ---
     const registrationForm = document.getElementById('registration-form');
