@@ -17,10 +17,11 @@ const allowedOrigins = [
     "http://localhost:3000"
 ];
 
+// TEMPORARY TEST: ONLY FOR DEBUGGING!
 app.use(cors({
-    origin: allowedOrigins,
+    origin: "*", 
     methods: "GET,POST,PUT,DELETE",
-    credentials: true
+    credentials: true // Set to true even with *, though less relevant
 }));
 
 // Middleware
