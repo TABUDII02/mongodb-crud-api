@@ -1,0 +1,285 @@
+/* --- Global & Base Styles --- */
+:root {
+    --primary-color: #4A4E69; /* Deep Indigo/Navy for text and main elements */
+    --accent-color: #FF6B6B; /* Vibrant Red/Coral for buttons and highlights */
+    --bg-color-light: #F4F5F9; /* Off-white/Light Gray background */
+    --font-stack: 'Poppins', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-stack);
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color-light); 
+    color: var(--primary-color);
+}
+
+/* --- Header & Navigation --- */
+.main-header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--primary-color);
+    margin-left: 25px;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.main-nav a:hover, .main-nav a.active-link {
+    color: var(--accent-color);
+}
+
+/* --- Main Auth Layout --- */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px); /* Adjust based on header height */
+    padding: 40px 20px;
+}
+
+.auth-container {
+    display: flex;
+    width: 850px; /* Overall width of the card */
+    max-width: 95%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Form Panels (Login & Register) --- */
+.auth-panel {
+    width: 50%; /* Each panel takes half the container width */
+    padding: 40px;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Engaging spring-like transition */
+    position: absolute; /* Allows them to stack and slide */
+    top: 0;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.register-panel {
+    left: 0;
+    transform: translateX(-100%);
+}
+
+.login-panel {
+    right: 0;
+    transform: translateX(100%);
+}
+
+.active-form {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0%);
+    position: static; /* Once active, take normal space in the flow */
+    z-index: 10;
+}
+
+/* --- Form Content Styling --- */
+.form-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+}
+
+/* --- Buttons & Links --- */
+.primary-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    letter-spacing: 0.5px;
+}
+
+.primary-btn:hover {
+    background-color: #e65c5c; /* Slightly darker accent */
+}
+
+.primary-btn:active {
+    transform: scale(0.99);
+}
+
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    color: #999;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.forgot-link:hover {
+    color: var(--accent-color);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.toggle-link {
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Callout/Image Panel (Right Side Engagement) --- */
+.auth-callout {
+    width: 50%;
+    background: linear-gradient(135deg, var(--primary-color), #2F3640); /* Gradient for depth */
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border-radius: 0 12px 12px 0; /* Match container border radius */
+    
+    /* Image added via a background for visual interest */
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgb(74, 78, 105, 0.7);stop-opacity:1" /><stop offset="100%" style="stop-color:rgb(47, 54, 64, 0.7);stop-opacity:1" /></linearGradient></defs><path fill="url(%23g)" d="M48.2,-6.6C44.7,21.8,22.4,54.7,-6.1,56.1C-34.6,57.5,-69.3,27.4,-67.2,0.6C-65.1,-26.2,-32.5,-52.4,-0.8,-52.3C30.9,-52.3,61.9,-25.9,48.2,-6.6Z" transform="translate(100 100)" /></svg>');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply; /* Blends the gradient/color with the svg */
+}
+
+.auth-callout h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.auth-callout ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 250px;
+}
+
+.auth-callout li {
+    padding: 10px 0;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 300;
+}
+
+.auth-callout li:last-child {
+    border-bottom: none;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .main-nav a {
+        margin: 0 10px;
+    }
+    
+    .auth-container {
+        flex-direction: column; /* Stack panels vertically */
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .auth-panel, .auth-callout {
+        width: 100%; /* Full width when stacked */
+        position: relative; /* Remove absolute positioning */
+        transform: none;
+    }
+    
+    /* Hide callout on very small screens or move it to the top */
+    .auth-callout {
+        border-radius: 12px 12px 0 0; 
+        padding: 30px;
+    }
+
+    .register-panel, .login-panel {
+        /* Ensure only one form shows at a time using JS logic */
+        padding: 30px;
+        min-height: 450px; /* Give the forms some space */
+    }
+    
+    .active-form {
+        display: block;
+    }
+    
+    .auth-panel:not(.active-form) {
+        display: none;
+    }
+}
