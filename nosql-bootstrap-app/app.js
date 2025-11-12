@@ -9,14 +9,14 @@ const jwt = require("jsonwebtoken"); // For generating tokens
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 8080; 
 
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
 // Define allowed origins
 const allowedOrigins = [
     // Your deployed frontend URL (Render/Netlify/Vercel)
-    process.env.FRONTEND_URL || "https://frontend-j35x.onrender.com", 
+    process.env.FRONTEND_URL || "https://mystor3-production.up.railway.app/", 
     // Common local host ports for frontend/Live Server
     "http://localhost:5500", 
     "http://127.0.0.1:5500",
