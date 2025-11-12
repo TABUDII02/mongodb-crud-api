@@ -1,19 +1,23 @@
-# Stage 1: Install dependencies
+# Stage 1: Build/Install Dependencies
 FROM node:20 AS builder
 WORKDIR /app
-# Copy only the files needed for dependency installation first
+# Copy only package files to leverage Docker's caching
 COPY package.json package-lock.json ./
 RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# We skip the "npm run build" step entirely, as it's not needed.
-
-# Stage 2: Run the app
+# Stage 2: The production runtime image
+# Use a slimmer image for a smaller final container
 FROM node:20-slim
 WORKDIR /app
-COPY --from=builder /app ./
 
-# This CMD command runs 'npm start', which is now defined as 'node index.js'
-# This command automatically binds to the port Railway provides (process.env.PORT)
+# Copy the contents of the final /app directory from the builder stage
+# The trailing dot '.' means "copy contents into the current WORKDIR"
+COPY --from=builder /app/ .
+
+# Expose the default port for Railway
+EXPOSE 3000
+
+# The command that starts your app (runs 'node index.js' via package.json)
 CMD ["npm", "start"]
