@@ -10,7 +10,7 @@ COPY . .
 # Stage 2: The production runtime image
 # Use a slimmer image for a smaller final container
 FROM node:20-slim
-WORKDIR /app
+WORKDIR /nosql-bootstrap-app
 
 # Copy the contents of the final /app directory from the builder stage
 # The trailing dot '.' means "copy contents into the current WORKDIR"
