@@ -10,14 +10,14 @@ COPY . .
 # Stage 2: The production runtime image
 # Use a slimmer image for a smaller final container
 FROM node:20-slim
-WORKDIR /nosql-bootstrap-app
+WORKDIR /app
 
-# Copy the contents of the final /app directory from the builder stage
-# The trailing dot '.' means "copy contents into the current WORKDIR"
-COPY --from=builder /nosql-bootstrap-app/ .
+# The Correct Line: Copy the contents of the /app directory from the builder stage
+# The path in the builder stage is /app/, not /nosql-bootstrap-app/
+COPY --from=builder /app/ .
 
-# Expose the default port for Railway
-EXPOSE 5000
+# Expose the default port (optional, but good practice)
+EXPOSE 3000
 
 # The command that starts your app (runs 'node index.js' via package.json)
 CMD ["npm", "start"]
