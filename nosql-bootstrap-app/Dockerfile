@@ -14,7 +14,7 @@ WORKDIR /app
 
 # Copy the contents of the final /app directory from the builder stage
 # The trailing dot '.' means "copy contents into the current WORKDIR"
-COPY --from=builder /app/ .
+COPY --from=builder /nosql-bootstrap-app/ .
 
 # Expose the default port for Railway
 EXPOSE 5000
