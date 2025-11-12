@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN npm run build # If you have a build step
+
 
 # Stage 2: Run the app
 FROM node:20-slim
