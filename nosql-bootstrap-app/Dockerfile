@@ -17,7 +17,7 @@ WORKDIR /app
 COPY --from=builder /app/ .
 
 # Expose the default port for Railway
-EXPOSE 3000
+EXPOSE 5000
 
 # The command that starts your app (runs 'node index.js' via package.json)
 CMD ["npm", "start"]
