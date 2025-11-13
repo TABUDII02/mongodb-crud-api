@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
 // Define allowed origins
-const allowedOrigins =  'https://mystor3-production.up.railway.app';
+const allowedOrigin =  'https://mystor3-production.up.railway.app';
     // Common local host ports for frontend/Live Server
     //"http://localhost:5500", 
     //"http://127.0.0.1:5500",
