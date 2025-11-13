@@ -9,23 +9,34 @@ const jwt = require("jsonwebtoken"); // For generating tokens
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 8080; 
+const PORT = process.env.PORT || 5000; 
 
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
 // Define allowed origins
-const allowedOrigin =  'https://mystor3-production.up.railway.app';
+const allowedOrigins = [
+    // Your deployed frontend URL (Render/Netlify/Vercel)
+    process.env.FRONTEND_URL || "https://frontend-j35x.onrender.com", 
     // Common local host ports for frontend/Live Server
-    //"http://localhost:5500", 
-    //"http://127.0.0.1:5500",
-    //"mongodb://localhost:27017/",
+    "http://localhost:5500", 
+    "http://127.0.0.1:5500",
+    "mongodb://localhost:27017/",
     // The port your backend itself is running on (for testing)
-    //`http://localhost:${PORT}` 
-
+    `http://localhost:${PORT}` 
+];
 
 // FIXED CORS CONFIGURATION
 app.use(cors({
-    origin: allowedOrigin,
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true); 
+        
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.log(`CORS Error: Origin ${origin} not allowed`);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204
