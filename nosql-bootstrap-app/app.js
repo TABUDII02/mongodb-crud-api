@@ -18,11 +18,11 @@ const allowedOrigins = [
     // Your deployed frontend URL (Render/Netlify/Vercel)
     process.env.FRONTEND_URL || "https://mystor3-production.up.railway.app/", 
     // Common local host ports for frontend/Live Server
-    "http://localhost:5500", 
-    "http://127.0.0.1:5500",
-    "mongodb://localhost:27017/",
+    //"http://localhost:5500", 
+    //"http://127.0.0.1:5500",
+    //"mongodb://localhost:27017/",
     // The port your backend itself is running on (for testing)
-    `http://localhost:${PORT}` 
+    //`http://localhost:${PORT}` 
 ];
 
 // FIXED CORS CONFIGURATION
