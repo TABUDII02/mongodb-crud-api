@@ -14,30 +14,14 @@ const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
 // Define allowed origins
-const allowedOrigins = [
-    // Your deployed frontend URL (Render/Netlify/Vercel)
-    "https://mystor3.onrender.com", 
-    // Common local host ports for frontend/Live Server
-    "http://localhost:5500", 
-    "http://127.0.0.1:5500",
-    "mongodb://localhost:27017/",
-    // The port your backend itself is running on (for testing)
-    `http://localhost:${PORT}` 
-];
+const allowedOrigins = "https://mystor3.onrender.com";
+    
 
 // FIXED CORS CONFIGURATION
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin) return callback(null, true); 
-        
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            console.log(`CORS Error: Origin ${origin} not allowed`);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    origin: allowedOrigin,
+    // CRITICAL: Allowing all necessary methods for login/register and CRUD
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS", 
     credentials: true,
     optionsSuccessStatus: 204
 }));
@@ -45,8 +29,6 @@ app.use(cors({
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'client')));
-console.log(`Serving static files from: ${path.join(__dirname, 'client')}`);
 
 
 // 2. MongoDB Connection
