@@ -9,7 +9,7 @@ COPY . .
 
 # Stage 2: The production runtime image
 # Use a slimmer image for a smaller final container
-FROM node:20-slim
+FROM node:20-bullseye
 WORKDIR /app
 
 # The Correct Line: Copy the contents of the /app directory from the builder stage
