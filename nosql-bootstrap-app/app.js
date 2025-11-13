@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
 // Define allowed origins
-const allowedOrigins = "https://mystor3.onrender.com";
+const allowedOrigin = "https://mystor3.onrender.com";
     
 
 // FIXED CORS CONFIGURATION
