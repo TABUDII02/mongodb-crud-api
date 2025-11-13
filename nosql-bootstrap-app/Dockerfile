@@ -17,7 +17,7 @@ WORKDIR /app
 COPY --from=builder /app/ .
 
 # Expose the default port (optional, but good practice)
-EXPOSE 3000
+EXPOSE 8080
 
 # The command that starts your app (runs 'node index.js' via package.json)
 CMD ["npm", "start"]
