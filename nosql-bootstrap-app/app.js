@@ -16,7 +16,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_cha
 // Define allowed origins
 const allowedOrigins = [
     // Your deployed frontend URL (Render/Netlify/Vercel)
-    process.env.FRONTEND_URL || "https://frontend-j35x.onrender.com", 
+    "https://mystor3.onrender.com", 
     // Common local host ports for frontend/Live Server
     "http://localhost:5500", 
     "http://127.0.0.1:5500",
