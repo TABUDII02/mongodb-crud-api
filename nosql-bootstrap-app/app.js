@@ -14,16 +14,14 @@ const PORT = process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
 // Define allowed origins
-const allowedOrigins = [
-    // Your deployed frontend URL (Render/Netlify/Vercel)
-    process.env.FRONTEND_URL || "https://mystor3-production.up.railway.app/", 
+const allowedOrigins =  'https://mystor3-production.up.railway.app/';
     // Common local host ports for frontend/Live Server
     //"http://localhost:5500", 
     //"http://127.0.0.1:5500",
     //"mongodb://localhost:27017/",
     // The port your backend itself is running on (for testing)
     //`http://localhost:${PORT}` 
-];
+
 
 // FIXED CORS CONFIGURATION
 app.use(cors({
