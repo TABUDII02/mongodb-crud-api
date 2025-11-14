@@ -287,24 +287,67 @@ app.get("/api/products", async (req, res) => {
 });
 
 // --- 1B. READ Products (ADMIN PROTECTED: For Dashboard) ---
-// 🆕 NEW ROUTE: Provides the full list, including soft-deleted items, for the Admin dashboard
+// Provides the full list, including soft-deleted items, for the Admin dashboard
 app.get("/api/admin/products", authMiddleware, async (req, res) => {
     try {
         if (req.user.role !== 'admin') {
             return res.status(403).json({ error: 'Forbidden. Admins only.' });
         }
 
-        // Fetch all products, including soft-deleted ones (if needed for trash view),
-        // but typically the admin wants the full list: {}. You can adjust the filter if needed.
+        // Fetch all products, including soft-deleted ones (if needed for trash view)
         const products = await Product.find({}).sort({ name: 1, isDeleted: 1 }); 
         res.json(products);
 
     } catch (err) {
-        console.error("Get Admin Products Error:", err.message);
+        console.log("Get Admin Products Error:", err.message);
         res.status(500).json({ error: "Server error fetching admin products: " + err.message });
     }
 });
-// ----------------------------------------------------------------------------------
+
+
+// --- 1C. READ Single Product by ID (PUBLIC/PROTECTED) ---
+// 🆕 NEW ROUTE: Retrieves a single product using its custom 'id' field.
+app.get("/api/products/:id", async (req, res) => {
+    try {
+        const productId = req.params.id;
+        let product;
+
+        // Check if the user is authenticated (might be an Admin or a Customer browsing)
+        const token = req.header('Authorization')?.replace('Bearer ', '');
+        let isAdmin = false;
+
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, JWT_SECRET);
+                if (decoded.user.role === 'admin') {
+                    isAdmin = true;
+                }
+            } catch (jwtErr) {
+                // Ignore JWT errors here if we still want to serve public data
+                console.log("JWT check failed, treating as public user.");
+            }
+        }
+
+        if (isAdmin) {
+            // Admin can see deleted products
+            product = await Product.findOne({ id: productId });
+        } else {
+            // Public/Customer can only see non-deleted products
+            product = await Product.findOne({ id: productId, isDeleted: false });
+        }
+
+        if (!product) {
+            return res.status(404).json({ error: "Product not found." });
+        }
+
+        res.json(product);
+
+    } catch (err) {
+        console.error("Get Single Product Error:", err.message);
+        res.status(500).json({ error: "Server error fetching single product: " + err.message });
+    }
+});
+
 
 // --- 2. CREATE Product (ADMIN PROTECTED: Add New Product) ---
 app.post("/api/products", authMiddleware, async (req, res) => {
