@@ -8,29 +8,42 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const app = express();
-// Using PORT 5000 is fine as Render injects the correct port via process.env.PORT
 const PORT = process.env.PORT || 5000; 
 
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
 
-// 🚨 RENDER FIX: Define the ONLY allowed origin (your Render Frontend Public URL)
-// ⚠️ ENSURE this URL is EXACTLY correct and uses HTTPS!
-const allowedOrigin = "https://mystor3.onrender.com";
+// Define allowed origins
+const allowedOrigins = [
+    // Your deployed frontend URL (Render/Netlify/Vercel)
+    process.env.FRONTEND_URL || "https://frontend-j35x.onrender.com", 
+    // Common local host ports for frontend/Live Server
+    "http://localhost:5500", 
+    "http://127.0.0.1:5500",
+    "mongodb://localhost:27017/",
+    // The port your backend itself is running on (for testing)
+    `http://localhost:${PORT}` 
+];
 
-
-// FIXED CORS CONFIGURATION (Must be executed before any routes)
+// FIXED CORS CONFIGURATION
 app.use(cors({
-    origin: allowedOrigin,
-    // CRITICAL: Allowing all necessary methods for login/register and CRUD
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS", 
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true); 
+        
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.log(`CORS Error: Origin ${origin} not allowed`);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204
 }));
 
-// Middleware (Must be executed before any routes that need req.body)
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 
 // 2. MongoDB Connection
