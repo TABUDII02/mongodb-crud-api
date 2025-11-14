@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const app = express();
+// Using PORT 5000 is fine as Render injects the correct port via process.env.PORT
 const PORT = process.env.PORT || 5000; 
 
 const JWT_SECRET = process.env.JWT_SECRET || "a_very_insecure_default_secret_change_me_now"; 
@@ -392,10 +393,11 @@ app.delete("/api/products/:id", authMiddleware, async (req, res) => {
 // =========================================================
 
 // =========================================================
-// ⭐ CUSTOMER AND SALES MANAGEMENT ROUTES
+// ⭐ NEW: CUSTOMER AND SALES MANAGEMENT ROUTES
 // =========================================================
 
 // --- 5. READ All Customer Users (ADMIN PROTECTED) ---
+// This handles the request from the dashboard's fetchCustomerList()
 app.get("/api/users", authMiddleware, async (req, res) => {
     try {
         // Enforce Admin role check
@@ -413,6 +415,7 @@ app.get("/api/users", authMiddleware, async (req, res) => {
 });
 
 // --- 6. DELETE Customer Account (ADMIN PROTECTED) ---
+// This resolves the 'Failed to delete customer: Route Not Found' error
 app.delete("/api/users/:id", authMiddleware, async (req, res) => {
     try {
         if (req.user.role !== 'admin') {
@@ -440,6 +443,7 @@ app.delete("/api/users/:id", authMiddleware, async (req, res) => {
 });
 
 // --- 7. GET Sales Report (ADMIN PROTECTED) ---
+// This resolves the 'Failed to load sales data: Route Not Found' error
 app.get("/api/sales/report", authMiddleware, async (req, res) => {
     try {
         if (req.user.role !== 'admin') {
@@ -484,77 +488,6 @@ app.get("/api/sales/report", authMiddleware, async (req, res) => {
 });
 
 // =========================================================
-// 🛒 ROUTE 8: CHECKOUT TRANSACTION (SAVES SALES & UPDATES INVENTORY)
-// =========================================================
-app.post("/api/sales/checkout", authMiddleware, async (req, res) => {
-    try {
-        const { orderItems } = req.body;
-        
-        if (!orderItems || orderItems.length === 0) {
-            return res.status(400).json({ error: 'Cannot process empty order.' });
-        }
-
-        const itemsToSave = [];
-        const productUpdates = [];
-
-        // 1. Validate and prepare items for saving and inventory update
-        for (const item of orderItems) {
-            // Basic validation
-            if (!item.id || !item.name || item.price === undefined || item.quantity === undefined || item.quantity < 1) {
-                console.error("Invalid item structure:", item);
-                return res.status(400).json({ error: "Invalid or incomplete order item structure." });
-            }
-            
-            // Prepare OrderItem for database
-            itemsToSave.push({
-                productId: item.id,
-                productName: item.name,
-                quantity: item.quantity,
-                unitPrice: item.price,
-            });
-
-            // Prepare for inventory update (decrement stock)
-            productUpdates.push({
-                id: item.id,
-                quantity: item.quantity
-            });
-        }
-        
-        // 2. Save all new OrderItems
-        // Using insertMany for a single batch write operation
-        const savedItems = await OrderItem.insertMany(itemsToSave);
-
-        // 3. Update Product Stock (Inventory Management)
-        for (const update of productUpdates) {
-            const { id, quantity } = update;
-            
-            // Atomically decrement stock. Use $inc for atomic operations.
-            const updatedProduct = await Product.findOneAndUpdate(
-                { id: id, isDeleted: false, stock: { $gte: quantity } }, // Check stock is sufficient
-                { $inc: { stock: -quantity } },
-                { new: true }
-            );
-
-            if (!updatedProduct) {
-                 // A critical error: stock was insufficient or product was deleted/not found
-                console.error(`INVENTORY ERROR: Failed to update stock for product ID ${id}. Required: ${quantity}`);
-                // In a real e-commerce app, this should trigger a full transaction rollback.
-                // For simplicity here, we'll log an error and proceed, but return a warning status.
-            }
-        }
-
-        res.status(201).json({
-            message: "Order processed, sales recorded, and inventory updated successfully!",
-            firstOrderItemId: savedItems[0]._id // Return a reference ID
-        });
-
-    } catch (err) {
-        console.error("Checkout Transaction Error:", err.message);
-        res.status(500).json({ error: "Server error during checkout transaction: " + err.message });
-    }
-});
-// =========================================================
-
 
 // FINAL Middleware: JSON 404 NOT FOUND HANDLER 
 app.use((req, res, next) => {
