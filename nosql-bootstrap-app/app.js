@@ -276,8 +276,8 @@ app.post("/api/admin/login", async (req, res) => {
 // This is the public endpoint and only shows non-deleted products.
 app.get("/api/products", async (req, res) => {
     try {
-        // Only fetch non-deleted products for the public store view
-        const products = await Product.find({ isDeleted: false }).sort({ name: 1 }); 
+        // ⭐ CRITICAL FIX: Find products where isDeleted is either FALSE or DOES NOT EXIST ($ne: true)
+        const products = await Product.find({ isDeleted: { $ne: true } }).sort({ name: 1 }); 
         res.json(products);
 
     } catch (err) {
@@ -308,44 +308,44 @@ app.get("/api/admin/products", authMiddleware, async (req, res) => {
 // --- 1C. READ Single Product by ID (PUBLIC/PROTECTED) ---
 // 🆕 NEW ROUTE: Retrieves a single product using its custom 'id' field.
 app.get("/api/products/:id", async (req, res) => {
-    try {
-        const productId = req.params.id;
-        let product;
+    try {
+        const productId = req.params.id;
+        let product;
 
-        // Check if the user is authenticated (might be an Admin or a Customer browsing)
-        const token = req.header('Authorization')?.replace('Bearer ', '');
-        let isAdmin = false;
+        // Check if the user is authenticated (might be an Admin or a Customer browsing)
+        const token = req.header('Authorization')?.replace('Bearer ', '');
+        let isAdmin = false;
 
-        if (token) {
-            try {
-                const decoded = jwt.verify(token, JWT_SECRET);
-                if (decoded.user.role === 'admin') {
-                    isAdmin = true;
-                }
-            } catch (jwtErr) {
-                // Ignore JWT errors here if we still want to serve public data
-                console.log("JWT check failed, treating as public user.");
-            }
-        }
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, JWT_SECRET);
+                if (decoded.user.role === 'admin') {
+                    isAdmin = true;
+                }
+            } catch (jwtErr) {
+                // Ignore JWT errors here if we still want to serve public data
+                console.log("JWT check failed, treating as public user.");
+            }
+        }
 
-        if (isAdmin) {
-            // Admin can see deleted products
-            product = await Product.findOne({ id: productId });
-        } else {
-            // Public/Customer can only see non-deleted products
-            product = await Product.findOne({ id: productId, isDeleted: false });
-        }
+        if (isAdmin) {
+            // Admin can see deleted products
+            product = await Product.findOne({ id: productId });
+        } else {
+            // Public/Customer can only see non-deleted products
+            product = await Product.findOne({ id: productId, isDeleted: { $ne: true } }); // Use $ne: true here too for safety
+        }
 
-        if (!product) {
-            return res.status(404).json({ error: "Product not found." });
-        }
+        if (!product) {
+            return res.status(404).json({ error: "Product not found." });
+        }
 
-        res.json(product);
+        res.json(product);
 
-    } catch (err) {
-        console.error("Get Single Product Error:", err.message);
-        res.status(500).json({ error: "Server error fetching single product: " + err.message });
-    }
+    } catch (err) {
+        console.error("Get Single Product Error:", err.message);
+        res.status(500).json({ error: "Server error fetching single product: " + err.message });
+    }
 });
 
 
@@ -370,7 +370,9 @@ app.post("/api/products", authMiddleware, async (req, res) => {
             image,
             description,
             price,
-            stock
+            stock,
+            // ⭐ FIX: Explicitly set the field to ensure it exists in Mongo
+            isDeleted: false 
         });
 
         await newProduct.save();
@@ -430,8 +432,9 @@ app.delete("/api/products/:id", authMiddleware, async (req, res) => {
     const productId = req.params.id;
 
     try {
+        // We only soft delete if it's currently NOT deleted
         const productToDelete = await Product.findOneAndUpdate(
-            { id: productId, isDeleted: false },
+            { id: productId, isDeleted: { $ne: true } }, 
             { isDeleted: true },
             { new: true }
         );
@@ -589,7 +592,8 @@ app.post("/api/sales/checkout", authMiddleware, async (req, res) => {
             
             // Atomically decrement stock. Use $inc for atomic operations.
             const updatedProduct = await Product.findOneAndUpdate(
-                { id: id, isDeleted: false, stock: { $gte: quantity } }, // Check stock is sufficient
+                // Check stock is sufficient and product is NOT deleted
+                { id: id, isDeleted: { $ne: true }, stock: { $gte: quantity } }, 
                 { $inc: { stock: -quantity } },
                 { new: true }
             );
